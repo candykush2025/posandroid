@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+                        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <!-- Welcome Screen (shown when cart is empty) -->
+                            <LinearLayout
+                                android:id="@+id/welcome_screen"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:background="@color/splash_background"
+                                android:visibility="visible">
+
+                                <ImageView
+                                    android:id="@+id/welcome_logo"
+                                    android:layout_width="120dp"
+                                    android:layout_height="120dp"
+                                    android:src="@mipmap/ic_launcher"
+                                    android:layout_marginBottom="24dp"
+                                    android:contentDescription="Candy Kush Logo" />
+
+                                <TextView
+                                    android:id="@+id/welcome_message"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Welcome to Candy Kush"
+                                    android:textSize="32sp"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"
+                                    android:gravity="center" />
+
+                            </LinearLayout>
+
+                            <!-- Cart View (shown when cart has items) -->
+                            <LinearLayout
+                                android:id="@+id/cart_view"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:background="@color/white"
+                                android:visibility="gone">
+
+                            <LinearLayout
+                                android:id="@+id/customer_container"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:id="@+id/customer_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:paddingStart="12dp"
+                                    android:paddingEnd="12dp"
+                                    android:paddingTop="8dp"
+                                    android:paddingBottom="4dp"
+                                    android:text="Welcome"
+                                    android:textSize="18sp"
+                                    android:textColor="#333"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/customer_phone"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="12dp"
+                                    android:paddingEnd="12dp"
+                                    android:paddingBottom="8dp"
+                                    android:text="N/A"
+                                    android:textSize="12sp"
+                                    android:textColor="#666" />
+                            </LinearLayout>
+
+                            <ProgressBar
+                                android:id="@+id/progress_bar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/error_message"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="#c33"
+                                android:textSize="12sp"
+                                android:padding="8dp"
+                                android:visibility="gone"
+                                android:background="#fee" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_items"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:padding="8dp"
+                                android:clipToPadding="false" />
+
+                            <TextView
+                                android:id="@+id/update_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:paddingTop="4dp"
+                                android:text="Last updated: --:--:--"
+                                android:textSize="10sp"
+                                android:textColor="#999" />
+
+                            <LinearLayout
+                                android:id="@+id/summary_container"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="8dp"
+                                android:background="#e8f5e9">
+
+                                <LinearLayout
+                                    android:id="@+id/row_subtotal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone"
+                                    android:layout_marginBottom="3dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="Subtotal:"
+                                        android:textSize="12sp"
+                                        android:textColor="#666" />
+
+                                    <TextView
+                                        android:id="@+id/subtotal_amount"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="฿0.00"
+                                        android:textSize="12sp"
+                                        android:textColor="#333"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/row_discount"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone"
+                                    android:layout_marginBottom="3dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="Discount:"
+                                        android:textSize="12sp"
+                                        android:textColor="#666" />
+
+                                    <TextView
+                                        android:id="@+id/discount_amount"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="฿0.00"
+                                        android:textSize="12sp"
+                                        android:textColor="#d22"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/row_tax"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone"
+                                    android:layout_marginBottom="3dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="Tax:"
+                                        android:textSize="12sp"
+                                        android:textColor="#666" />
+
+                                    <TextView
+                                        android:id="@+id/tax_amount"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="฿0.00"
+                                        android:textSize="12sp"
+                                        android:textColor="#333"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:paddingTop="6dp"
+                                    android:paddingBottom="6dp"
+                                    android:background="#004e00">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="TOTAL:"
+                                        android:textSize="16sp"
+                                        android:textColor="@android:color/white"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/total_amount"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="฿0.00"
+                                        android:textSize="16sp"
+                                        android:textColor="@android:color/white"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                        <!-- End of cart_view -->
+
+                        </FrameLayout>
