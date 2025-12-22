@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/login_gradient_bg"
+    android:padding="32dp">
+
+    <!-- Logo Section -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginBottom="48dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="POS Candy Kush"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin Dashboard"
+            android:textSize="16sp"
+            android:textColor="#E8F5E8"
+            android:alpha="0.9"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <!-- Loading Card -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_background"
+        android:orientation="vertical"
+        android:padding="32dp">
+
+        <!-- Loading Icon -->
+        <ProgressBar
+            android:id="@+id/progress_spinner"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:indeterminateTint="#2E7D32"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Loading Status -->
+        <TextView
+            android:id="@+id/tv_loading_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preparing..."
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:gravity="center"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Loading Detail -->
+        <TextView
+            android:id="@+id/tv_loading_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Setting up your dashboard"
+            android:textSize="14sp"
+            android:textColor="#757575"
+            android:gravity="center"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Progress Bar -->
+        <ProgressBar
+            android:id="@+id/progress_bar_loading"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:max="100"
+            android:progress="0"
+            android:progressTint="#2E7D32"
+            android:progressBackgroundTint="#E0E0E0"
+            android:layout_marginHorizontal="16dp" />
+
+        <!-- Progress Percent -->
+        <TextView
+            android:id="@+id/tv_progress_percent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0%"
+            android:textSize="14sp"
+            android:textColor="#2E7D32"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="12dp" />
+
+    </LinearLayout>
+
+    <!-- Info Text -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="32dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loading your sales data"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:alpha="0.8" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="This may take a moment on first login"
+            android:textSize="12sp"
+            android:textColor="#E8F5E8"
+            android:alpha="0.6"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+</LinearLayout>
+

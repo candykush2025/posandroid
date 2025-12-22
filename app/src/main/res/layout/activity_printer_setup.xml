@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <!-- Permission Required Screen -->
+    <LinearLayout
+        android:id="@+id/permission_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="48dp"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_bluetooth"
+            android:tint="#2196F3"
+            android:layout_marginBottom="24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bluetooth Permission Required"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#212121"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="This app needs Bluetooth permission to discover and connect to thermal printers. Please grant permission to continue."
+            android:textSize="16sp"
+            android:textColor="#616161"
+            android:textAlignment="center"
+            android:layout_marginBottom="32dp" />
+
+        <Button
+            android:id="@+id/request_permission_button"
+            android:layout_width="280dp"
+            android:layout_height="56dp"
+            android:text="Grant Bluetooth Permission"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#2196F3" />
+
+    </LinearLayout>
+
+    <!-- Main Content - Two Panel Layout -->
+    <LinearLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <!-- Left Panel - Printer Selection -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:elevation="4dp"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🖨️ Select Printer"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#212121"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose a Bluetooth or USB printer"
+                android:textSize="14sp"
+                android:textColor="#757575"
+                android:layout_marginBottom="16dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/printer_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clipToPadding="false"
+                android:paddingBottom="8dp" />
+
+            <!-- Wrap settings in ScrollView for left panel -->
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Protocol Selection -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Print Protocol"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="#424242"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="2dp" />
+
+                    <Spinner
+                        android:id="@+id/protocol_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/spinner_background"
+                        android:entries="@array/print_protocols" />
+
+                    <!-- Paper Size Selection -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Paper Size"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="#424242"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="2dp" />
+
+                    <Spinner
+                        android:id="@+id/paper_size_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/spinner_background"
+                        android:entries="@array/paper_sizes" />
+
+                </LinearLayout>
+
+            </ScrollView>
+
+            <!-- Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+
+                <Button
+                    android:id="@+id/skip_button"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="Skip"
+                    android:textAllCaps="false"
+                    android:textColor="#757575"
+                    android:backgroundTint="#E0E0E0"
+                    android:layout_marginEnd="8dp" />
+
+                <Button
+                    android:id="@+id/save_button"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="Save &amp; Continue"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:backgroundTint="#4CAF50" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Right Panel - Receipt Setup & Preview -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <!-- Receipt Settings -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:elevation="2dp"
+                android:padding="16dp"
+                android:layout_marginEnd="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⚙️ Receipt Settings"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#212121"
+                    android:layout_marginBottom="16dp" />
+
+                <ScrollView
+                    android:id="@+id/settings_scroll_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:fillViewport="true"
+                    android:scrollbars="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Logo Upload -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Shop Logo (Optional)"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#424242"
+                            android:layout_marginBottom="8dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="8dp">
+
+                            <ImageView
+                                android:id="@+id/logo_image_view"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:src="@drawable/ic_add_photo"
+                                android:scaleType="centerInside"
+                                android:background="@drawable/dashed_border"
+                                android:padding="8dp" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:layout_marginStart="12dp">
+
+                                <Button
+                                    android:id="@+id/upload_logo_button"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="36dp"
+                                    android:text="Upload Logo"
+                                    android:textAllCaps="false"
+                                    android:textSize="12sp"
+                                    android:textColor="#FFFFFF"
+                                    android:backgroundTint="#2196F3" />
+
+                                <Button
+                                    android:id="@+id/remove_logo_button"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="36dp"
+                                    android:text="Remove"
+                                    android:textAllCaps="false"
+                                    android:textSize="12sp"
+                                    android:textColor="#F44336"
+                                    android:backgroundTint="#FFEBEE"
+                                    android:visibility="gone"
+                                    android:layout_marginTop="4dp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- Logo Size -->
+                        <TextView
+                            android:id="@+id/logo_size_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Logo Size: 50%"
+                            android:textSize="12sp"
+                            android:textColor="#757575"
+                            android:layout_marginBottom="4dp" />
+
+                        <SeekBar
+                            android:id="@+id/logo_size_seekbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp" />
+
+                        <!-- Shop Name -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Shop Name"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#424242"
+                            android:layout_marginBottom="4dp" />
+
+                        <EditText
+                            android:id="@+id/shop_name_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:hint="e.g. My Shop Name"
+                            android:inputType="text"
+                            android:background="@drawable/edit_text_background"
+                            android:padding="12dp"
+                            android:layout_marginBottom="12dp" />
+
+                        <!-- Shop Address -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Shop Address"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#424242"
+                            android:layout_marginBottom="4dp" />
+
+                        <EditText
+                            android:id="@+id/shop_address_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:hint="e.g. 123 Main Street"
+                            android:inputType="text"
+                            android:background="@drawable/edit_text_background"
+                            android:padding="12dp"
+                            android:layout_marginBottom="12dp" />
+
+                        <!-- Shop Phone -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Shop Phone"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#424242"
+                            android:layout_marginBottom="4dp" />
+
+                        <EditText
+                            android:id="@+id/shop_phone_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:hint="e.g. 02-123-4567"
+                            android:inputType="phone"
+                            android:background="@drawable/edit_text_background"
+                            android:padding="12dp"
+                            android:layout_marginBottom="12dp" />
+
+                        <!-- Footer -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Receipt Footer"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#424242"
+                            android:layout_marginBottom="4dp" />
+
+                        <EditText
+                            android:id="@+id/footer_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="72dp"
+                            android:hint="e.g. Thank you for shopping!"
+                            android:inputType="textMultiLine"
+                            android:background="@drawable/edit_text_background"
+                            android:padding="12dp"
+                            android:gravity="top"
+                            android:imeOptions="actionDone"
+                            android:layout_marginBottom="16dp" />
+
+                        <!-- QR Link -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="QR Code Link (Optional)"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#424242"
+                            android:layout_marginBottom="4dp" />
+
+                        <EditText
+                            android:id="@+id/qr_link_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:hint="e.g. https://example.com"
+                            android:inputType="textUri"
+                            android:background="@drawable/edit_text_background"
+                            android:padding="12dp"
+                            android:layout_marginBottom="16dp" />
+
+                        <!-- QR Code Size Slider -->
+
+                        <!-- QR Code Description -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="QR Code Description (Optional)"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#424242"
+                            android:layout_marginBottom="4dp" />
+
+                        <EditText
+                            android:id="@+id/qr_description_edit"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:hint="Text to print under QR code"
+                            android:inputType="text"
+                            android:background="@drawable/edit_text_background"
+                            android:padding="12dp"
+                            android:layout_marginBottom="16dp" />
+
+                        <!-- Date Format Selection -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Date Format"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#424242"
+                            android:layout_marginBottom="4dp" />
+
+                        <Spinner
+                            android:id="@+id/date_format_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:background="@drawable/spinner_background"
+                            android:entries="@array/date_formats"
+                            android:layout_marginBottom="12dp" />
+
+                        <!-- Time Format Selection -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Time Format"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#424242"
+                            android:layout_marginBottom="4dp" />
+
+                        <Spinner
+                            android:id="@+id/time_format_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:background="@drawable/spinner_background"
+                            android:entries="@array/time_formats"
+                            android:layout_marginBottom="12dp" />
+
+                        <!-- Currency Symbol Selection -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Currency Symbol"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#424242"
+                            android:layout_marginBottom="4dp" />
+
+                        <Spinner
+                            android:id="@+id/currency_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:background="@drawable/spinner_background"
+                            android:entries="@array/currency_symbols"
+                            android:layout_marginBottom="16dp" />
+
+                        <!-- Paper Feed Lines -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Paper Feed After Print"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#424242"
+                            android:layout_marginBottom="4dp" />
+
+                        <TextView
+                            android:id="@+id/paper_feed_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Feed Lines: 3"
+                            android:textSize="12sp"
+                            android:textColor="#666"
+                            android:layout_marginBottom="4dp" />
+
+                        <SeekBar
+                            android:id="@+id/paper_feed_seekbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:max="10"
+                            android:progress="3"
+                            android:layout_marginBottom="150dp" />
+
+                    </LinearLayout>
+
+                </ScrollView>
+
+            </LinearLayout>
+
+            <!-- Receipt Preview -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:elevation="2dp"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📄 Receipt Preview"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#212121"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Preview Container (Receipt Look) -->
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="#FAFAFA"
+                    android:padding="4dp">
+
+                    <LinearLayout
+                        android:id="@+id/preview_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="#FFFFFF"
+                        android:padding="16dp"
+                        android:elevation="2dp">
+
+                        <!-- Logo -->
+                        <ImageView
+                            android:id="@+id/preview_logo"
+                            android:layout_width="100dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:scaleType="fitCenter"
+                            android:visibility="gone"
+                            android:layout_marginBottom="8dp" />
+
+                        <!-- Shop Name -->
+                        <TextView
+                            android:id="@+id/preview_shop_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="SHOP NAME"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            android:textColor="#212121"
+                            android:fontFamily="monospace"
+                            android:visibility="gone" />
+
+                        <!-- Shop Address -->
+                        <TextView
+                            android:id="@+id/preview_shop_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:textAlignment="center"
+                            android:textColor="#616161"
+                            android:fontFamily="monospace"
+                            android:visibility="gone" />
+
+                        <!-- Shop Phone -->
+                        <TextView
+                            android:id="@+id/preview_shop_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:textAlignment="center"
+                            android:textColor="#616161"
+                            android:fontFamily="monospace"
+                            android:layout_marginBottom="8dp"
+                            android:visibility="gone" />
+
+                        <!-- Separator -->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="================================"
+                            android:textSize="12sp"
+                            android:textAlignment="center"
+                            android:textColor="#9E9E9E"
+                            android:fontFamily="monospace" />
+
+                        <!-- Date -->
+                        <TextView
+                            android:id="@+id/preview_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Date: 2025-12-06"
+                            android:textSize="11sp"
+                            android:textColor="#757575"
+                            android:fontFamily="monospace"
+                            android:layout_marginTop="4dp" />
+
+                        <!-- Time -->
+                        <TextView
+                            android:id="@+id/preview_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Time: 10:30:00"
+                            android:textSize="11sp"
+                            android:textColor="#757575"
+                            android:fontFamily="monospace" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="--------------------------------"
+                            android:textSize="12sp"
+                            android:textColor="#BDBDBD"
+                            android:fontFamily="monospace"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp" />
+
+                        <!-- Items Container -->
+                        <LinearLayout
+                            android:id="@+id/preview_items"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" />
+
+                        <!-- Separator -->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="================================"
+                            android:textSize="12sp"
+                            android:textAlignment="center"
+                            android:textColor="#9E9E9E"
+                            android:fontFamily="monospace"
+                            android:layout_marginTop="8dp" />
+
+                        <!-- Footer -->
+                        <TextView
+                            android:id="@+id/preview_footer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Thank you for shopping!"
+                            android:textSize="12sp"
+                            android:textAlignment="center"
+                            android:textColor="#616161"
+                            android:fontFamily="monospace"
+                            android:layout_marginTop="8dp"
+                            android:visibility="gone" />
+
+                        <!-- QR Code -->
+                        <ImageView
+                            android:id="@+id/preview_qr"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_gravity="center_horizontal"
+                            android:scaleType="fitCenter"
+                            android:visibility="gone"
+                            android:layout_marginTop="8dp" />
+
+                    </LinearLayout>
+
+                </ScrollView>
+
+                <!-- Test Print Button -->
+                <Button
+                    android:id="@+id/test_print_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="🖨️ Test Print Preview"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:backgroundTint="#FF9800"
+                    android:layout_marginTop="12dp"
+                    android:enabled="false" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

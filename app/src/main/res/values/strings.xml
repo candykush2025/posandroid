@@ -1,3 +1,36 @@
 <resources>
     <string name="app_name">POS Candy Kush</string>
+    <string-array name="print_protocols">
+        <item>DantSu ESC/POS</item>
+        <item>PeriPage Image</item>
+        <item>Plain Text</item>
+        <item>ESC/POS Basic</item>
+        <item>ESC/POS Full</item>
+        <item>ESC General</item>
+        <item>SmartPos SDK</item>
+    </string-array>
+    <string-array name="paper_sizes">
+        <item>58mm (32 chars)</item>
+        <item>80mm (48 chars)</item>
+    </string-array>
+    <string-array name="date_formats">
+        <item>DD/MM/YYYY (06/12/2025)</item>
+        <item>MM/DD/YYYY (12/06/2025)</item>
+        <item>YYYY-MM-DD (2025-12-06)</item>
+        <item>DD-MM-YYYY (06-12-2025)</item>
+        <item>DD MMM YYYY (06 Dec 2025)</item>
+    </string-array>
+    <string-array name="time_formats">
+        <item>HH:mm:ss (14:30:00)</item>
+        <item>HH:mm (14:30)</item>
+        <item>hh:mm:ss a (02:30:00 PM)</item>
+        <item>hh:mm a (02:30 PM)</item>
+    </string-array>
+    <string-array name="currency_symbols">
+        <item>THB (THB 100.00)</item>
+        <item>฿ (฿100.00)</item>
+        <item>Baht (Baht 100.00)</item>
+        <item>$ ($100.00)</item>
+        <item>None (100.00)</item>
+    </string-array>
 </resources>
