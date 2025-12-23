@@ -241,15 +241,63 @@ class ItemsActivity : AppCompatActivity() {
             val items = dataObj?.optJSONArray("items")
 
             if (items != null && items.length() > 0) {
-                // Group items by category
-                val itemsByCategory = mutableMapOf<String, MutableList<JSONObject>>()
+                // DIAGNOSTIC: Check for duplicate products
+                val productNames = mutableMapOf<String, MutableList<String>>()
+                val productIds = mutableSetOf<String>()
 
                 for (i in 0 until items.length()) {
                     val item = items.optJSONObject(i)
                     if (item != null) {
-                        val category = item.optString("category", "Other")
-                        itemsByCategory.getOrPut(category) { mutableListOf() }.add(item)
+                        val name = item.optString("product_name", "Unknown")
+                        val id = item.optString("product_id", "Unknown")
+                        productNames.getOrPut(name) { mutableListOf() }.add(id)
+                        productIds.add(id)
                     }
+                }
+
+                // Log total counts
+                android.util.Log.d("ItemsActivity", "Total items from API: ${items.length()}")
+                android.util.Log.d("ItemsActivity", "Unique product IDs: ${productIds.size}")
+
+                // Log duplicates by name
+                val duplicates = productNames.filter { it.value.size > 1 }
+                if (duplicates.isNotEmpty()) {
+                    android.util.Log.e("ItemsActivity", "⚠️ DUPLICATES FOUND: ${duplicates.size} products")
+                    duplicates.forEach { (name, ids) ->
+                        android.util.Log.e("ItemsActivity",
+                            "DUPLICATE: '$name' appears ${ids.size} times with IDs: ${ids.joinToString(", ")}")
+                    }
+                } else {
+                    android.util.Log.i("ItemsActivity", "✓ No duplicate product names found")
+                }
+
+                // DEDUPLICATION: Use product_id as unique key to remove duplicates
+                val uniqueItems = mutableMapOf<String, JSONObject>()
+
+                for (i in 0 until items.length()) {
+                    val item = items.optJSONObject(i)
+                    if (item != null) {
+                        val productId = item.optString("product_id", "")
+                        if (productId.isNotEmpty()) {
+                            // Keep first occurrence
+                            if (!uniqueItems.containsKey(productId)) {
+                                uniqueItems[productId] = item
+                            } else {
+                                android.util.Log.w("ItemsActivity",
+                                    "Skipping duplicate product_id: $productId")
+                            }
+                        }
+                    }
+                }
+
+                android.util.Log.d("ItemsActivity", "After deduplication: ${uniqueItems.size} unique products")
+
+                // Group deduplicated items by category
+                val itemsByCategory = mutableMapOf<String, MutableList<JSONObject>>()
+
+                uniqueItems.values.forEach { item ->
+                    val category = item.optString("category", "Other")
+                    itemsByCategory.getOrPut(category) { mutableListOf() }.add(item)
                 }
 
                 // Sort categories and display them
