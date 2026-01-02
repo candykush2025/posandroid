@@ -16,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +29,6 @@ class PurchasingActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var rvPurchases: RecyclerView
     private lateinit var tvEmpty: TextView
-    private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var fabAddPurchase: FloatingActionButton
     private lateinit var statusBarBackground: View
@@ -48,7 +46,6 @@ class PurchasingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_purchasing)
 
-        initializeViews()
         setupStatusBar()
 
         prefs = getSharedPreferences("admin_prefs", MODE_PRIVATE)
@@ -59,7 +56,7 @@ class PurchasingActivity : AppCompatActivity() {
             return
         }
 
-        setupBottomNavigation()
+        initializeViews()
         setupSwipeRefresh()
         setupRecyclerView()
         setupFAB()
@@ -103,11 +100,11 @@ class PurchasingActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progress_bar)
         rvPurchases = findViewById(R.id.rv_purchases)
         tvEmpty = findViewById(R.id.tv_empty)
-        bottomNavigation = findViewById(R.id.bottom_navigation)
         swipeRefresh = findViewById(R.id.swipe_refresh)
         fabAddPurchase = findViewById(R.id.fab_add_purchase)
         statusBarBackground = findViewById(R.id.status_bar_background)
 
+        // Set status bar height
         val statusBarHeight = getStatusBarHeight()
         statusBarBackground.layoutParams.height = statusBarHeight
 
@@ -116,33 +113,9 @@ class PurchasingActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupBottomNavigation() {
-        bottomNavigation.selectedItemId = R.id.nav_finance
-
-        bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_sales -> {
-                    startActivity(Intent(this, DashboardActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    finish()
-                    true
-                }
-                R.id.nav_items -> {
-                    startActivity(Intent(this, ItemsActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    finish()
-                    true
-                }
-                R.id.nav_finance -> true
-                R.id.nav_settings -> {
-                    startActivity(Intent(this, SettingsActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    finish()
-                    true
-                }
-                else -> false
-            }
-        }
+    private fun getStatusBarHeight(): Int {
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId) else 0
     }
 
     private fun setupSwipeRefresh() {
@@ -313,10 +286,4 @@ class PurchasingActivity : AppCompatActivity() {
             loadPurchaseData()
         }
     }
-
-    private fun getStatusBarHeight(): Int {
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId) else 0
-    }
 }
-

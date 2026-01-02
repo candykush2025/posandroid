@@ -84,7 +84,7 @@ class LoginActivity : AppCompatActivity() {
     private suspend fun performLogin(email: String, password: String): String {
         return withContext(Dispatchers.IO) {
             try {
-                val url = URL("https://pos-candy-kush.vercel.app/api/mobile")
+                val url = URL("https://pos-candy-kush.vercel.app/api/mobile?action=login")
                 val connection = url.openConnection() as HttpURLConnection
 
                 connection.apply {
@@ -96,7 +96,6 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 val requestBody = JSONObject().apply {
-                    put("action", "login")
                     put("email", email)
                     put("password", password)
                 }

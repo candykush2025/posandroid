@@ -11,8 +11,8 @@ android {
         applicationId = "com.blackcode.poscandykush"
         minSdk = 24
         targetSdk = 36
-        versionCode = 16
-        versionName = "1.1.5"
+        versionCode = 18
+        versionName = "1.1.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

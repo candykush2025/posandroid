@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="@drawable/gradient_background"
     android:fitsSystemWindows="true">
+
+    <!-- App Logo -->
+    <ImageView
+        android:id="@+id/iv_app_logo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/logo_black"
+        android:scaleType="fitCenter"
+        android:contentDescription="App Logo"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="64dp" />
 
     <!-- Content Container - Centered -->
     <LinearLayout
@@ -15,17 +28,6 @@
         android:gravity="center"
         android:padding="32dp">
 
-        <!-- App Title -->
-        <TextView
-            android:id="@+id/tv_app_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="POS Candy Kush"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:textColor="#2E7D32"
-            android:layout_marginBottom="16dp" />
-
         <!-- Subtitle -->
         <TextView
             android:id="@+id/tv_subtitle"
@@ -34,7 +36,8 @@
             android:text="Select Application Mode"
             android:textSize="18sp"
             android:textColor="#666666"
-            android:layout_marginBottom="48dp" />
+            android:fontFamily="@font/poppins"
+            android:layout_marginBottom="16dp" />
 
         <!-- Buttons Container -->
         <LinearLayout
@@ -44,68 +47,183 @@
             android:orientation="vertical"
             android:gravity="center">
 
-            <!-- Admin Button -->
-            <Button
-                android:id="@+id/btn_admin"
+            <!-- Admin Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_admin"
                 android:layout_width="300dp"
                 android:layout_height="80dp"
-                android:text="Admin Dashboard"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:backgroundTint="#1976D2"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#FFFFFF">
 
-            <!-- POS Button -->
-            <Button
-                android:id="@+id/btn_pos"
-                android:layout_width="300dp"
-                android:layout_height="80dp"
-                android:text="POS Terminal"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:backgroundTint="#2E7D32"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
 
-            <!-- Printer Settings Button -->
-            <Button
-                android:id="@+id/btn_printer_settings"
-                android:layout_width="300dp"
-                android:layout_height="80dp"
-                android:text="Printer Settings"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:backgroundTint="#FF9800"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp" />
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/icon_users"
+                        android:contentDescription="Users Icon"
+                        android:layout_marginEnd="12dp" />
 
-            <!-- Check Updates Button -->
-            <Button
-                android:id="@+id/btn_check_updates"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Admin Dashboard"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#000000"
+                            android:fontFamily="@font/poppins" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mobile dashboard &amp; management"
+                            android:textSize="12sp"
+                            android:textColor="#666666"
+                            android:fontFamily="@font/poppins" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- POS Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_pos"
                 android:layout_width="300dp"
                 android:layout_height="80dp"
-                android:text="Check for Updates"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:backgroundTint="#9C27B0"
-                android:padding="16dp"
-                android:layout_marginBottom="24dp" />
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/icon_tablet"
+                        android:contentDescription="Tablet Icon"
+                        android:layout_marginEnd="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="POS Terminal"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#000000"
+                            android:fontFamily="@font/poppins" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Centralized sales management"
+                            android:textSize="12sp"
+                            android:textColor="#666666"
+                            android:fontFamily="@font/poppins" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Icon Buttons Container -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp">
+
+                <!-- Printer Settings Icon Button -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_printer"
+                    android:layout_width="53dp"
+                    android:layout_height="53dp"
+                    android:layout_marginEnd="16dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardBackgroundColor="#000000">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/icon_settings"
+                        android:contentDescription="Printer Settings"
+                        android:padding="12dp"
+                        android:scaleType="fitCenter" />
+
+                </androidx.cardview.widget.CardView>
+
+                <!-- Check Updates Icon Button -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_updates"
+                    android:layout_width="53dp"
+                    android:layout_height="53dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardBackgroundColor="#000000">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/icon_update"
+                        android:contentDescription="Check Updates"
+                        android:padding="12dp"
+                        android:scaleType="fitCenter" />
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <!-- Info Text -->
-        <TextView
-            android:id="@+id/tv_info"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:text="Admin: For mobile dashboard and management\nPOS: For tablet point-of-sale operations\nPrinter: Configure and reset printer settings\nUpdates: Check for latest app version"
-            android:textSize="14sp"
-            android:textColor="#999999"
-            android:gravity="center"
-            android:layout_marginTop="32dp" />
-
     </LinearLayout>
+
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="155dp"
+        android:layout_height="35dp"
+        android:src="@drawable/icon_logo_text"
+        android:contentDescription="Logo"
+        android:layout_above="@id/tv_tagline"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Tagline -->
+    <TextView
+        android:id="@+id/tv_tagline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="One platform, total control of your business"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:fontFamily="@font/poppins"
+        android:layout_above="@id/tv_version"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp" />
 
     <!-- Version Text -->
     <TextView
@@ -117,6 +235,7 @@
         android:layout_marginBottom="16dp"
         android:text="Version: 1.0.0"
         android:textSize="12sp"
+        android:fontFamily="@font/poppins"
         android:textColor="#AAAAAA" />
 
 </RelativeLayout>

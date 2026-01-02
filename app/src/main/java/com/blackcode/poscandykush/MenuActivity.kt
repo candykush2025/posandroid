@@ -6,11 +6,11 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -44,10 +44,10 @@ class MenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
-        val btnAdmin: Button = findViewById(R.id.btn_admin)
-        val btnPos: Button = findViewById(R.id.btn_pos)
-        val btnPrinterSettings: Button = findViewById(R.id.btn_printer_settings)
-        val btnCheckUpdates: Button = findViewById(R.id.btn_check_updates)
+        val btnAdmin: CardView = findViewById(R.id.cv_admin)
+        val btnPos: CardView = findViewById(R.id.cv_pos)
+        val btnPrinterSettings: CardView = findViewById(R.id.cv_printer)
+        val btnCheckUpdates: CardView = findViewById(R.id.cv_updates)
 
         btnAdmin.setOnClickListener {
             // Open Login Activity for admin access

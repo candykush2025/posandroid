@@ -12,11 +12,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +33,6 @@ class ExpenseActivity : AppCompatActivity() {
     private lateinit var rvExpenses: RecyclerView
     private lateinit var tvEmpty: TextView
     private lateinit var tvTotal: TextView
-    private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var fabAddExpense: FloatingActionButton
     private lateinit var statusBarBackground: View
@@ -49,7 +50,6 @@ class ExpenseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_expense)
 
-        initializeViews()
         setupStatusBar()
 
         prefs = getSharedPreferences("admin_prefs", MODE_PRIVATE)
@@ -60,7 +60,7 @@ class ExpenseActivity : AppCompatActivity() {
             return
         }
 
-        setupBottomNavigation()
+        initializeViews()
         setupSwipeRefresh()
         setupRecyclerView()
         setupFAB()
@@ -105,11 +105,11 @@ class ExpenseActivity : AppCompatActivity() {
         rvExpenses = findViewById(R.id.rv_expenses)
         tvEmpty = findViewById(R.id.tv_empty)
         tvTotal = findViewById(R.id.tv_total)
-        bottomNavigation = findViewById(R.id.bottom_navigation)
         swipeRefresh = findViewById(R.id.swipe_refresh)
         fabAddExpense = findViewById(R.id.fab_add_expense)
         statusBarBackground = findViewById(R.id.status_bar_background)
 
+        // Set status bar height
         val statusBarHeight = getStatusBarHeight()
         statusBarBackground.layoutParams.height = statusBarHeight
 
@@ -118,33 +118,9 @@ class ExpenseActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupBottomNavigation() {
-        bottomNavigation.selectedItemId = R.id.nav_finance
-
-        bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_sales -> {
-                    startActivity(Intent(this, DashboardActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    finish()
-                    true
-                }
-                R.id.nav_items -> {
-                    startActivity(Intent(this, ItemsActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    finish()
-                    true
-                }
-                R.id.nav_finance -> true
-                R.id.nav_settings -> {
-                    startActivity(Intent(this, SettingsActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    finish()
-                    true
-                }
-                else -> false
-            }
-        }
+    private fun getStatusBarHeight(): Int {
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId) else 0
     }
 
     private fun setupSwipeRefresh() {
@@ -329,10 +305,5 @@ class ExpenseActivity : AppCompatActivity() {
         if (::expenseAdapter.isInitialized && expenseAdapter.itemCount > 0) {
             loadExpenseData()
         }
-    }
-
-    private fun getStatusBarHeight(): Int {
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId) else 0
     }
 }

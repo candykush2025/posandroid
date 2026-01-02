@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsetsController
+import android.view.WindowManager
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -15,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +31,6 @@ class CustomerInvoiceActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var rvInvoices: RecyclerView
     private lateinit var tvEmpty: TextView
-    private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var fabAddInvoice: FloatingActionButton
     private lateinit var statusBarBackground: View
@@ -53,7 +52,6 @@ class CustomerInvoiceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_customer_invoice)
 
-        initializeViews()
         setupStatusBar()
 
         prefs = getSharedPreferences("admin_prefs", MODE_PRIVATE)
@@ -65,7 +63,7 @@ class CustomerInvoiceActivity : AppCompatActivity() {
             return
         }
 
-        setupBottomNavigation()
+        initializeViews()
         setupSwipeRefresh()
         setupRecyclerView()
         setupFAB()
@@ -110,7 +108,6 @@ class CustomerInvoiceActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progress_bar)
         rvInvoices = findViewById(R.id.rv_invoices)
         tvEmpty = findViewById(R.id.tv_empty)
-        bottomNavigation = findViewById(R.id.bottom_navigation)
         swipeRefresh = findViewById(R.id.swipe_refresh)
         fabAddInvoice = findViewById(R.id.fab_add_invoice)
         statusBarBackground = findViewById(R.id.status_bar_background)
@@ -125,33 +122,9 @@ class CustomerInvoiceActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupBottomNavigation() {
-        bottomNavigation.selectedItemId = R.id.nav_finance
-
-        bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_sales -> {
-                    startActivity(Intent(this, DashboardActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    finish()
-                    true
-                }
-                R.id.nav_items -> {
-                    startActivity(Intent(this, ItemsActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    finish()
-                    true
-                }
-                R.id.nav_finance -> true
-                R.id.nav_settings -> {
-                    startActivity(Intent(this, SettingsActivity::class.java))
-                    overridePendingTransition(0, 0)
-                    finish()
-                    true
-                }
-                else -> false
-            }
-        }
+    private fun getStatusBarHeight(): Int {
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId) else 0
     }
 
     private fun setupSwipeRefresh() {
@@ -316,10 +289,6 @@ class CustomerInvoiceActivity : AppCompatActivity() {
         }
     }
 
-    private fun getStatusBarHeight(): Int {
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId) else 0
-    }
 
     /**
      * Show delete confirmation dialog

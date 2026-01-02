@@ -187,12 +187,18 @@ class InitialDataLoadingActivity : AppCompatActivity() {
         withContext(Dispatchers.IO) {
             try {
                 val token = prefs.getString("jwt_token", "") ?: ""
-                val urlString = "$BASE_URL?action=stock-history"
-                val url = URL(urlString)
-                val connection = url.openConnection() as HttpURLConnection
+
+                // Fetch stock data (for Product Management)
+                withContext(Dispatchers.Main) {
+                    updateStatus("Loading inventory...", "Fetching products")
+                }
+
+                val stockUrlString = "$BASE_URL?action=stock"
+                val stockUrl = URL(stockUrlString)
+                val stockConnection = stockUrl.openConnection() as HttpURLConnection
 
                 try {
-                    connection.apply {
+                    stockConnection.apply {
                         requestMethod = "GET"
                         setRequestProperty("Authorization", "Bearer $token")
                         setRequestProperty("Content-Type", "application/json")
@@ -200,20 +206,57 @@ class InitialDataLoadingActivity : AppCompatActivity() {
                         readTimeout = 30000
                     }
 
-                    val responseCode = connection.responseCode
-                    if (responseCode == 200) {
-                        val responseBody = connection.inputStream.bufferedReader().readText()
-                        val stockHistoryData = JSONObject(responseBody)
+                    val stockResponseCode = stockConnection.responseCode
+                    if (stockResponseCode == 200) {
+                        val stockResponseBody = stockConnection.inputStream.bufferedReader().readText()
+                        val stockData = JSONObject(stockResponseBody)
 
-                        // Calculate stock from history and save
-                        val processedStockData = calculateStockFromHistory(stockHistoryData)
-                        cache.saveItemsToCache("items-stock", processedStockData)
+                        // Save stock data to cache for Product Management
+                        cache.saveItemsToCache("product_management_stock", stockData)
+                        android.util.Log.d("InitialLoading", "Stock data cached for Product Management")
                     }
                 } finally {
-                    connection.disconnect()
+                    stockConnection.disconnect()
+                }
+
+                // Fetch stock history data (for movements and cost calculation)
+                withContext(Dispatchers.Main) {
+                    updateStatus("Loading inventory...", "Fetching stock movements")
+                }
+
+                val historyUrlString = "$BASE_URL?action=stock-history"
+                val historyUrl = URL(historyUrlString)
+                val historyConnection = historyUrl.openConnection() as HttpURLConnection
+
+                try {
+                    historyConnection.apply {
+                        requestMethod = "GET"
+                        setRequestProperty("Authorization", "Bearer $token")
+                        setRequestProperty("Content-Type", "application/json")
+                        connectTimeout = 30000
+                        readTimeout = 30000
+                    }
+
+                    val historyResponseCode = historyConnection.responseCode
+                    if (historyResponseCode == 200) {
+                        val historyResponseBody = historyConnection.inputStream.bufferedReader().readText()
+                        val stockHistoryData = JSONObject(historyResponseBody)
+
+                        // Save stock history data to cache for Product Management
+                        cache.saveItemsToCache("product_management_history", stockHistoryData)
+                        android.util.Log.d("InitialLoading", "Stock history data cached for Product Management")
+
+                        // Calculate stock from history and save (for Items screen)
+                        val processedStockData = calculateStockFromHistory(stockHistoryData)
+                        cache.saveItemsToCache("items-stock", processedStockData)
+                        android.util.Log.d("InitialLoading", "Processed stock data cached for Items screen")
+                    }
+                } finally {
+                    historyConnection.disconnect()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                android.util.Log.e("InitialLoading", "Error loading stock data: ${e.message}")
                 // Non-critical error, continue anyway
             }
         }

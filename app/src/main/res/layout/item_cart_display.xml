@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Item Name"
-            android:textSize="16sp"
+            android:textSize="24sp"
             android:textColor="#333"
             android:textStyle="bold" />
 
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Qty: 1 × $0.00"
-            android:textSize="12sp"
+            android:textSize="18sp"
             android:textColor="#666"
             android:layout_marginTop="4dp" />
 
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="$0.00"
-        android:textSize="16sp"
+        android:textSize="24sp"
         android:textColor="#667eea"
         android:textStyle="bold"
         android:layout_gravity="center_vertical|end"
